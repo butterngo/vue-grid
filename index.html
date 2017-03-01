@@ -9,6 +9,9 @@
 </head>
 <body>
 <div id="demo">
+      <form id="search">
+            Search <input name="query" v-model="searchQuery">
+        </form>
      <table>
         <thead>
         <tr>
@@ -16,8 +19,8 @@
                 @click="sortBy(col.name)"
                 :class="{ active: sortKey == col.name }">
                     {{ col.name | capitalize }}
+            <span class="arrow" :class="sortOrders[col.name] > 0 ? 'asc' : 'dsc'"></span>
             </th>
-           <!-- <span class="arrow" :class="sortOrders[col.name] > 0 ? 'asc' : 'dsc'"></span>-->
         </tr>
         </thead>
         <tbody>
@@ -47,17 +50,19 @@ var demo = new Vue({
             { name: "sumDonationAmount" }];
 
      columns.forEach(function (key) {
-        sortOrders[key] = 1
+        sortOrders[key.name] = 1
      });
     
     return {
         columns: columns,
         items: this.bindData(),
         sortKey: '',
+        searchQuery:'',
         sortOrders: sortOrders
     }
   },
   beforeCreate:function() {
+     
     console.log("beforeCreate ", this);
   },
   created:function() {
@@ -80,16 +85,16 @@ var demo = new Vue({
   computed:{
       filteredData: function () {
       var sortKey = this.sortKey
-      //var filterKey = this.filterKey && this.filterKey.toLowerCase()
+      var searchQuery = this.searchQuery && this.searchQuery.toLowerCase()
       var order = this.sortOrders[sortKey] || 1
       var data = this.items
-      /*if (filterKey) {
+      if (searchQuery) {
         data = data.filter(function (row) {
           return Object.keys(row).some(function (key) {
-            return String(row[key]).toLowerCase().indexOf(filterKey) > -1
+            return String(row[key]).toLowerCase().indexOf(searchQuery) > -1
           })
         })
-      }*/
+      }
       if (sortKey) {
         data = data.slice().sort(function (a, b) {
           a = a[sortKey]
@@ -110,7 +115,7 @@ var demo = new Vue({
     sortBy: function (key) {
       this.sortKey = key
       this.sortOrders[key] = this.sortOrders[key] * -1
-    }
+    },
   }
 })
 </script>   

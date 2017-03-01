@@ -8,8 +8,10 @@ Vue.component('v-grid', {
   data: function () {
     var sortOrders = {}
     this.columns.forEach(function (key) {
+      console.log(key);
       sortOrders[key] = 1
     })
+    debugger;
     return {
       sortKey: '',
       sortOrders: sortOrders
@@ -45,6 +47,7 @@ Vue.component('v-grid', {
   },
   methods: {
     sortBy: function (key) {
+      debugger;
       this.sortKey = key
       this.sortOrders[key] = this.sortOrders[key] * -1
     }

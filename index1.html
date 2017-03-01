@@ -38,17 +38,11 @@
             :filter-key="searchQuery">
         </v-grid>
 </div>
-<script src="components/v.grid.js"></script>
+<script src="components/v.grid1.js"></script>
 <script>
 var demo = new Vue({
   el: '#demo',
-  beforeCreate:function(){
-    console.log("beforeCreate");
-  },
-  created:function(){
-    console.log("created");
-  }
-  /*data: {
+  data: {
     searchQuery: '',
     gridColumns: ['name', 'power'],
     gridData: [
@@ -57,7 +51,7 @@ var demo = new Vue({
       { name: 'Jackie Chan', power: 7000 },
       { name: 'Jet Li', power: 8000 }
     ]
-  }*/
+  }
 })
 </script>
  
