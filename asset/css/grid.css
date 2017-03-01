@@ -25,8 +25,11 @@ td {
 }
 
 th, td {
-  min-width: 120px;
+/*  min-width: 120px;*/
+  min-width: 55px;
+  max-width: 150px;
   padding: 10px 20px;
+  word-break: break-all;
 }
 
 th.active {
