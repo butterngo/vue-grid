@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html>
 <title>HTML Tutorial</title>
+<html>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://unpkg.com/vue"></script>
@@ -36,9 +36,9 @@
    <div class="paginate wrapper">
         <ul>
             <li><a href="">&lang;</a></li>
-            <li v-for="page1 in pages1" class="inactive"><a href="">{{ page1 }}</a></li>
-             <li><a href="" class="more">&hellip;</a></li>
-             <li v-for="page2 in pages2" class="inactive"><a href="">{{ page2 }}</a></li>
+            <li v-for="page1 in pages1"><a :class="page1 == skip ? 'active' : 'inactive'" href="javascript:void(0)" @click="onPage(page1)">{{ page1 }}</a></li>
+             <li><a href="javascript:void(0)" class="more" @click="onMore()">&hellip;</a></li>
+             <li v-for="page2 in pages2"><a :class="page2 == skip ? 'active' : 'inactive'" href="javascript:void(0)" @click="onPage(page2)">{{ page2 }}</a></li>
             <li><a href="">&rang;</a></li>
         </ul>
     </div>
@@ -73,7 +73,10 @@ var demo = new Vue({
         totalPage: 0,
         pages1: [],
         pages2: [],
-        totalRecord: 0
+        totalRecord: 0,
+        skip: 1,
+        take: 10,
+        isProcessPage: true
     }
   },
   beforeCreate:function() {
@@ -128,12 +131,12 @@ var demo = new Vue({
   methods:{
      bindData: function() {
           var url = 'http://192.168.1.22:9000/api/quizzdata/search' + this.objectToParams();
-          this.$http.get('http://192.168.1.22:9000/api/quizzdata/search' + this.objectToParams()).then((response) => {
+          this.$http.get(url).then((response) => {
             var result = response.body;
             this.totalPage = result.totalPage;
             this.totalRecord = result.totalRecord;
             this.items = result.items;
-            this.processPage();
+            if (this.isProcessPage) this.processPage();
         });
     },
     sortBy: function (key) {
@@ -141,7 +144,7 @@ var demo = new Vue({
       this.sortOrders[key] = this.sortOrders[key] * -1
     },
     objectToParams: function() {
-      var data = { host: this.hostKey, drFullName: '', field: '', orderType: 'Ascending', skip: 0, take: 10 };
+      var data = { host: this.hostKey, drFullName: '', field: '', orderType: 'Ascending', skip: (this.skip - 1), take: this.take };
       return "?" + Object.keys(data).map(function(k) {
           return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
         }).join('&') 
@@ -149,18 +152,36 @@ var demo = new Vue({
     search: function() {
       this.bindData();
     },
-    processPage: function() {
-      debugger;
-        var start = this.pages1[this.pages1.length - 1];
-        var page2 = start + 5;
-        this.pages1 = [], this.pages2 = [];
-        for(var page = (start == 0 ? 1 : start) ; page <= 5; page++){
-          this.pages1.push(page);
-          this.pages2.push(page2);
-          page2 ++;
+    onPage: function (page) {
+        debugger;
+        this.skip = page;
+        if (page == this.getLastedPage()) {
+            this.onMore();
         }
-        console.log(this.pages1, this.pages2);
+        this.bindData();  
     },
+    onMore: function () {
+        var lastedPage = this.getLastedPage();
+        this.pages1 = [];
+        for (var page = lastedPage; page <= (lastedPage + 5); page++) {
+            this.pages1.push(page);
+        }
+    },
+    processPage: function () {
+        this.isProcessPage = false;
+        var page2 = this.totalPage;
+        this.pages1 = [], this.pages2 = [];
+        for (var page = this.getLastedPage() ; page <= 5; page++){
+          this.pages1.push(page);
+          if(page <= 3){
+            this.pages2.push(page2);
+            page2 --;
+          }
+        }
+    },
+    getLastedPage: function () {
+        return (this.pages1.length == 0 ? 1 : this.pages1[this.pages1.length - 1]);
+    }
   }
 })
 </script>   
