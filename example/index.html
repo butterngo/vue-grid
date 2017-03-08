@@ -21,7 +21,7 @@
                 @click="sortBy(col.name)"
                 :class="{ active: sortKey == col.name }">
                     {{ col.name | capitalize }}
-            <span class="arrow" :class="sortOrders[col.name] > 0 ? 'asc' : 'dsc'"></span>
+            <span :class="sortOrders[col.name] > 0 ? 'arrow asc' : 'arrow dsc'"></span>
             </th>
         </tr>
         </thead>
