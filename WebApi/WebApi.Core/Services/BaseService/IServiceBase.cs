@@ -20,12 +20,12 @@
 
        Task<IEnumerable<TDto>> FindAllAsync(Expression<Func<TEntity, bool>> pression = null);
 
-        Task<TDto> FindByIdAsync(int id);
+        Task<TDto> FindByIdAsync(params object[] keyValues);
 
         Task<TDto> CreateAsync(TDto model);
 
         Task<TDto> UpdateAsync(TDto model);
 
-        Task DeleteAsync(int id);
+        Task DeleteAsync(params object[] keyValues);
     }
 }
