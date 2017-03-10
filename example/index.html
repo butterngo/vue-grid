@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<title>HTML Tutorial</title>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://cdn.jsdelivr.net/vue.resource/1.2.1/vue-resource.min.js"></script>
+    <link href="asset/css/grid.css" rel='stylesheet' type='text/css'/>
+    <link href="asset/css/paginate.css" rel='stylesheet' type='text/css'/>
+</head>
+<body>
+<div id="demo">
+      <form id="search">
+            Search <input name="query" v-model="hostKey">
+        </form>
+        <button @click="search()">Search</button>
+     <table>
+        <thead>
+        <tr>
+            <th v-for="col in columns"
+                @click="sortBy(col.name)"
+                :class="{ active: sortKey == col.name }">
+                    {{ col.name | capitalize }}
+            <span :class="sortOrders[col.name] > 0 ? 'arrow asc' : 'arrow dsc'"></span>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="entry in filteredData">
+            <td v-for="key in columns">
+            {{entry[key.name]}}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+   <div class="paginate wrapper">
+        <ul>
+            <li><a href="">&lang;</a></li>
+            <li v-for="page1 in pages1"><a :class="page1 == skip ? 'active' : 'inactive'" href="javascript:void(0)" @click="onPage(page1)">{{ page1 }}</a></li>
+             <li><a href="javascript:void(0)" class="more" @click="onMore()">&hellip;</a></li>
+             <li v-for="page2 in pages2"><a :class="page2 == skip ? 'active' : 'inactive'" href="javascript:void(0)" @click="onPage(page2)">{{ page2 }}</a></li>
+            <li><a href="">&rang;</a></li>
+        </ul>
+    </div>
+</div>
+<script>
+var demo = new Vue({
+  el: '#demo',
+  data:function() {
+      var sortOrders = {}
+      var columns = [
+            { name: "id", },
+            { name: "date" },
+            { name: "host" },
+            { name: "drFullName" },
+            { name: "totalQuestion" },
+            { name: "numberOfCorrectAnswers" },
+            { name: "numberOfInCorrectAnswers" },
+            { name: "donationAmount" },
+            { name: "grandTotalDonation" },
+            { name: "sumDonationAmount" }];
+
+     columns.forEach(function (key) {
+        sortOrders[key.name] = 1
+     });
+    
+    return {
+        columns: columns,
+        items: [],
+        sortKey: '',
+        hostKey: '',
+        sortOrders: sortOrders,
+        totalPage: 0,
+        pages1: [],
+        pages2: [],
+        totalRecord: 0,
+        skip: 1,
+        take: 10,
+        isProcessPage: true
+    }
+  },
+  beforeCreate:function() {
+    console.log("beforeCreate ", this);
+  },
+  created:function() {
+    this.bindData();
+    console.log("created ", this);
+  },
+  beforeMount: function() {
+    console.log("beforeMount", this)
+  },
+  mounted:function() {
+    console.log("mounted", this)
+  },
+  destroyed:function() {
+      console.log("destroyed", this)
+  },
+  filters: {
+    capitalize: function (str) {
+      return str.charAt(0).toUpperCase() + str.slice(1)
+    }
+  },
+  watch: {
+      hostKey: function(val, oldVal) { 
+        console.log('new: %s, old: %s', val, oldVal);
+      }
+  },
+  computed:{
+      filteredData: function () {
+        var sortKey = this.sortKey
+        //var searchQuery = this.searchQuery && this.searchQuery.toLowerCase()
+        var order = this.sortOrders[sortKey] || 1
+        var data = this.items
+        /*if (searchQuery) {
+          data = data.filter(function (row) {
+            return Object.keys(row).some(function (key) {
+              return String(row[key]).toLowerCase().indexOf(searchQuery) > -1
+            })
+          })
+        }*/
+        if (sortKey) {
+          data = data.slice().sort(function (a, b) {
+            a = a[sortKey]
+            b = b[sortKey]
+            return (a === b ? 0 : a > b ? 1 : -1) * order
+          })
+        }
+        return data;
+    }
+  },
+  methods:{
+     bindData: function() {
+          var url = 'http://192.168.1.22:9000/api/quizzdata/search' + this.objectToParams();
+          this.$http.get(url).then((response) => {
+            var result = response.body;
+            this.totalPage = result.totalPage;
+            this.totalRecord = result.totalRecord;
+            this.items = result.items;
+            if (this.isProcessPage) this.processPage();
+        });
+    },
+    sortBy: function (key) {
+      this.sortKey = key
+      this.sortOrders[key] = this.sortOrders[key] * -1
+    },
+    objectToParams: function() {
+      var data = { host: this.hostKey, drFullName: '', field: '', orderType: 'Ascending', skip: (this.skip - 1), take: this.take };
+      return "?" + Object.keys(data).map(function(k) {
+          return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
+        }).join('&') 
+    },
+    search: function() {
+      this.bindData();
+    },
+    onPage: function (page) {
+        debugger;
+        this.skip = page;
+        if (page == this.getLastedPage()) {
+            this.onMore();
+        }
+        this.bindData();  
+    },
+    onMore: function () {
+        var lastedPage = this.getLastedPage();
+        this.pages1 = [];
+        for (var page = lastedPage; page <= (lastedPage + 5); page++) {
+            this.pages1.push(page);
+        }
+    },
+    processPage: function () {
+        this.isProcessPage = false;
+        var page2 = this.totalPage;
+        this.pages1 = [], this.pages2 = [];
+        for (var page = this.getLastedPage() ; page <= 5; page++){
+          this.pages1.push(page);
+          if(page <= 3){
+            this.pages2.push(page2);
+            page2 --;
+          }
+        }
+    },
+    getLastedPage: function () {
+        return (this.pages1.length == 0 ? 1 : this.pages1[this.pages1.length - 1]);
+    }
+  }
+})
+</script>   
+ 
+</body>
+</html>
