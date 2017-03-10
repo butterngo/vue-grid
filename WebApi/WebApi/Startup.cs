@@ -8,6 +8,7 @@
     using WebApi.Core;
     using Microsoft.EntityFrameworkCore;
     using WebApi.Core.Services;
+    using WebApi.Common.Helpers;
 
     public class Startup
     {
@@ -19,6 +20,8 @@
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            HelperAppSettings appSettings = new HelperAppSettings(Configuration);
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -32,7 +35,7 @@
 
             services.AddMvc();
 
-            services.AddDbContext<NORTHWNDContext>(options => options.UseSqlServer(Configuration.GetConnectionString("NORTHWND")));
+            services.AddDbContext<NORTHWNDContext>(options => options.UseSqlServer(HelperAppSettings.ConnectionString));
 
             RegisterIoC(services);
 
