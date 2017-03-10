@@ -10,6 +10,7 @@
     using Repository;
     using Microsoft.EntityFrameworkCore;
     using WebApi.Domain.Enum;
+    using WebApi.Common.Factories;
 
     public abstract class ServiceBase<TEntity, TDto> : IServiceBase<TEntity,TDto>
         where TEntity : class
@@ -17,10 +18,12 @@
     {
         protected readonly IUnitOfWork _unitOfWork;
 
-        protected IRepository<TEntity> _repository;
+        protected readonly IRepository<TEntity> _repository;
 
         public ServiceBase(IUnitOfWork unitOfWork)
         {
+            _repository = unitOfWork.GetPropValue<IRepository<TEntity>>(typeof(TEntity).Name + "Repository");
+
             _unitOfWork = unitOfWork;
         }
         
@@ -47,11 +50,11 @@
 
         }
 
-        public virtual async Task DeleteAsync(int id)
+        public virtual async Task DeleteAsync(params object[] keyValues)
         {
-            var entity = await _repository.FindByAsync(id);
+            var entity = await _repository.FindByAsync(keyValues);
 
-            if (entity == null) throw new Exception("Not found entity object with id: " + id);
+            if (entity == null) throw new Exception("Not found entity object with id: " + keyValues);
 
             _repository.Delete(entity);
 
@@ -73,9 +76,9 @@
             return EntityToDto(await query.ToListAsync());
         }
 
-        public virtual async Task<TDto> FindByIdAsync(int id)
+        public virtual async Task<TDto> FindByIdAsync(params object[] keyValues)
         {
-            return EntityToDto(await _repository.FindByAsync(id));
+            return EntityToDto(await _repository.FindByAsync(keyValues));
         }
 
         public virtual async Task<PageResultDto<TDto>> SearchAsync(Expression<Func<TEntity, bool>> pression = null,

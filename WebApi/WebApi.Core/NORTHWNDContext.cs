@@ -2,6 +2,7 @@
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata;
+    using WebApi.Common.Helpers;
     using WebApi.Domain;
 
     public partial class NORTHWNDContext : DbContext
@@ -22,7 +23,8 @@
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-IRJHHOH;Database=NORTHWND;Integrated Security=False;User ID=sa;Password=sa;");
+            
+            optionsBuilder.UseSqlServer(HelperAppSettings.ConnectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

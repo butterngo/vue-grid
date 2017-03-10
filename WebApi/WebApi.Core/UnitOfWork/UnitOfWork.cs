@@ -8,7 +8,7 @@
     {
         private NORTHWNDContext _context;
 
-        public IRepository<Categories> CategoriesRepository { get; private set; }
+        public ICategoryRepository CategoriesRepository { get; private set; }
 
         public IRepository<CustomerCustomerDemo> CustomerCustomerDemoRepository { get; private set; }
 
@@ -42,7 +42,7 @@
 
         private void InitializeRepository()
         {
-            CategoriesRepository = new GenericRepository<Categories, NORTHWNDContext>(_context);
+            CategoriesRepository = new CategoryRepository(_context);
 
             CustomerCustomerDemoRepository = new GenericRepository<CustomerCustomerDemo, NORTHWNDContext>(_context);
 

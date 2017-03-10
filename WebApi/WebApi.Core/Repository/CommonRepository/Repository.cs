@@ -10,7 +10,7 @@
         where TEntity : class
         where TContext : NORTHWNDContext
     {
-        private readonly TContext _context;
+        protected readonly TContext _context;
         
         public Repository(TContext context)
         {

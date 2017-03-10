@@ -7,7 +7,7 @@
 
     public interface IUnitOfWork: IDisposable
     {
-        IRepository<Categories> CategoriesRepository { get; }
+        ICategoryRepository CategoriesRepository { get; }
 
         IRepository<CustomerCustomerDemo> CustomerCustomerDemoRepository { get; }
 
