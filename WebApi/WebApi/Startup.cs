@@ -9,6 +9,7 @@
     using Microsoft.EntityFrameworkCore;
     using WebApi.Core.Services;
     using WebApi.Common.Helpers;
+    using WebApi.Common.Factories;
 
     public class Startup
     {
@@ -61,7 +62,7 @@
 
             app.UseMvc();
         }
-
+        
         private void RegisterIoC(IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -92,6 +93,7 @@
 
             services.AddSingleton<ITerritoriesService, TerritoriesService>();
 
+            ResolverFactory.SetProvider(services.BuildServiceProvider());
         }
     }
 }

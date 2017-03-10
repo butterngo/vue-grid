@@ -23,6 +23,7 @@
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            
             optionsBuilder.UseSqlServer(HelperAppSettings.ConnectionString);
         }
 

@@ -1,17 +1,22 @@
 ﻿namespace WebApi.Common.Factories
 {
     using System;
-    using System.Collections.Generic;
     using System.Reflection;
 
     public static class ResolverFactory
     {
- 
-        //public static T GetService<T>()
-        //   where T : class
-        //{
-        //    return (T)_kernel.GetService(typeof(T));
-        //}
+        private static IServiceProvider _serviceProvider { set; get; }
+
+        public static void SetProvider(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
+        public static T GetService<T>()
+           where T : class
+        {
+            return (T)_serviceProvider.GetService(typeof(T));
+        }
 
         public static T CreateInstance<T>(string typeName)
             where T : class

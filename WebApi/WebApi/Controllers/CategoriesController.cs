@@ -5,12 +5,14 @@
     using Domain;
     using WebApi.Core.Services;
     using System.Threading.Tasks;
+    using WebApi.Common.Factories;
 
     [Route("api/[controller]")]
     public class CategoriesController : BaseController<Categories, CategoriesDto, ICategoryService>
     {
         public CategoriesController(ICategoryService service) : base(service)
         {
+            
         }
 
         public override async Task<IActionResult> Get()
