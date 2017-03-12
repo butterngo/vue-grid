@@ -10,6 +10,16 @@
     using WebApi.Core.Services;
     using WebApi.Common.Helpers;
     using WebApi.Common.Factories;
+    using Microsoft.IdentityModel.Tokens;
+    using System;
+    using System.Text;
+    using WebApi.JWT;
+    using Microsoft.Extensions.Options;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using System.Threading.Tasks;
+    using System.Security.Claims;
+    using WebApi.Core.Identity;
+    using Microsoft.AspNetCore.Identity;
 
     public class Startup
     {
@@ -38,10 +48,14 @@
 
             services.AddDbContext<NORTHWNDContext>(options => options.UseSqlServer(HelperAppSettings.ConnectionString));
 
+            services.AddIdentity<User, Roles>(Options => WebApiUserManager.CreateOptions(Options))
+                    .AddEntityFrameworkStores<NORTHWNDContext>();
+
             RegisterIoC(services);
 
             //services.Configure<AppSettings>(Configuration);
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -59,12 +73,65 @@
 
             // Only uncomment this line to insert fake Quizz data to SQL
             // app.FakeQuizzData();
+            app.UseIdentity();
+
+            SetupOauth(app);
 
             app.UseMvc();
         }
-        
+
+        private void SetupOauth(IApplicationBuilder app)
+        {
+            // Add JWT generation endpoint:
+            var secretKey = "mysupersecret_secretkey!123";
+            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
+            var options = new TokenProviderOptions
+            {
+                Audience = "ExampleAudience",
+                Issuer = "ExampleIssuer",
+                SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256),
+            };
+
+            app.UseMiddleware<TokenProviderMiddleware>(Options.Create(options));
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                // The signing key must match!
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = signingKey,
+
+                // Validate the JWT Issuer (iss) claim
+                ValidateIssuer = true,
+                ValidIssuer = "ExampleIssuer",
+
+                // Validate the JWT Audience (aud) claim
+                ValidateAudience = true,
+                ValidAudience = "ExampleAudience",
+
+                // Validate the token expiry
+                ValidateLifetime = true,
+
+                // If you want to allow a certain amount of clock drift, set that here:
+                ClockSkew = TimeSpan.Zero,
+
+            };
+
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                TokenValidationParameters = tokenValidationParameters,
+                Events = new JwtEvents()
+        });
+        }
+
         private void RegisterIoC(IServiceCollection services)
         {
+            
+            services.AddScoped<WebApiUserManager, WebApiUserManager>();
+
+            services.AddScoped<WebApiRoleManager, WebApiRoleManager>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddSingleton<ICategoryService, CategoryService>();

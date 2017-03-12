@@ -1,12 +1,15 @@
 ﻿namespace WebApi.Core
 {
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata;
     using WebApi.Common.Helpers;
+    using WebApi.Core.Identity;
     using WebApi.Domain;
 
-    public partial class NORTHWNDContext : DbContext
+    public partial class NORTHWNDContext: IdentityDbContext<User, Roles, string>
     {
+
         public virtual DbSet<Categories> Categories { get; set; }
         public virtual DbSet<CustomerCustomerDemo> CustomerCustomerDemo { get; set; }
         public virtual DbSet<CustomerDemographics> CustomerDemographics { get; set; }
@@ -29,6 +32,17 @@
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<Roles>().ToTable("Roles");
+            //modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserToken");
+            //modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaim");
+            //modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaim");
+            //modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogin");
+            //modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRole");
+
             modelBuilder.Entity<Categories>(entity =>
             {
                 entity.HasKey(e => e.CategoryId)

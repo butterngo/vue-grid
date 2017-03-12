@@ -8,9 +8,10 @@ using WebApi.Core;
 namespace WebApi.Core.Migrations
 {
     [DbContext(typeof(NORTHWNDContext))]
-    partial class NORTHWNDContextModelSnapshot : ModelSnapshot
+    [Migration("20170312105949_init-identity1")]
+    partial class initidentity1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
