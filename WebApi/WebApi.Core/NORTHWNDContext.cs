@@ -23,6 +23,7 @@
         public virtual DbSet<Shippers> Shippers { get; set; }
         public virtual DbSet<Suppliers> Suppliers { get; set; }
         public virtual DbSet<Territories> Territories { get; set; }
+        public virtual DbSet<Client> Clients { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -37,11 +38,11 @@
 
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<Roles>().ToTable("Roles");
-            //modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserToken");
-            //modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaim");
-            //modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaim");
-            //modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogin");
-            //modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRole");
+            modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserToken");
+            modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaim");
+            modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaim");
+            modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogin");
+            modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRole");
 
             modelBuilder.Entity<Categories>(entity =>
             {

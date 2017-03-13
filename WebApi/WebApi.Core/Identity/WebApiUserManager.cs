@@ -6,10 +6,10 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
-    using System.Linq;
     using System.Threading.Tasks;
     using System.Security.Claims;
-    using Microsoft.EntityFrameworkCore;
+    using WebApi.Common.Factories;
+    using WebApi.Domain;
 
     public class WebApiUserManager : UserManager<User>, IDisposable
     {

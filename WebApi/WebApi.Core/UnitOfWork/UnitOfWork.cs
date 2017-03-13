@@ -34,6 +34,8 @@
 
         public IRepository<Territories> TerritoriesRepository { get; private set; }
 
+        public IRepository<Client> ClientRepository { get; private set; }
+
         public UnitOfWork(NORTHWNDContext context)
         {
             _context = context;
@@ -67,6 +69,8 @@
             SuppliersRepository = new GenericRepository<Suppliers, NORTHWNDContext>(_context);
 
             TerritoriesRepository = new GenericRepository<Territories, NORTHWNDContext>(_context);
+
+            ClientRepository = new GenericRepository<Client, NORTHWNDContext>(_context);
         }
 
         public void Commit()

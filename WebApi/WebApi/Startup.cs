@@ -15,11 +15,7 @@
     using System.Text;
     using WebApi.JWT;
     using Microsoft.Extensions.Options;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using System.Threading.Tasks;
-    using System.Security.Claims;
     using WebApi.Core.Identity;
-    using Microsoft.AspNetCore.Identity;
 
     public class Startup
     {
@@ -46,7 +42,7 @@
 
             services.AddMvc();
 
-            services.AddDbContext<NORTHWNDContext>(options => options.UseSqlServer(HelperAppSettings.ConnectionString));
+            services.AddDbContext<NORTHWNDContext>(options => options.UseSqlServer(HelperAppSettings.ConnectionString, b => b.MigrationsAssembly("WebApi.Core")));
 
             services.AddIdentity<User, Roles>(Options => WebApiUserManager.CreateOptions(Options))
                     .AddEntityFrameworkStores<NORTHWNDContext>();
@@ -121,7 +117,7 @@
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,
                 TokenValidationParameters = tokenValidationParameters,
-                Events = new JwtEvents()
+                Events = new JwtEvents(tokenValidationParameters)
         });
         }
 
@@ -159,6 +155,8 @@
             services.AddSingleton<ISuppliersService, SuppliersService>();
 
             services.AddSingleton<ITerritoriesService, TerritoriesService>();
+
+            services.AddSingleton<IClientService, ClientService>();
 
             ResolverFactory.SetProvider(services.BuildServiceProvider());
         }

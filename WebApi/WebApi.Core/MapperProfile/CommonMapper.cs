@@ -35,6 +35,8 @@
             CreateMap<Suppliers, SuppliersDto>();
 
             CreateMap<Territories, TerritoriesDto>();
+
+            CreateMap<Client, ClientDto>();
             #endregion
 
             #region Dto To Entity
@@ -65,6 +67,7 @@
 
             CreateMap<TerritoriesDto, Territories>();
 
+            CreateMap<ClientDto, Client>();
             #endregion
         }
     }

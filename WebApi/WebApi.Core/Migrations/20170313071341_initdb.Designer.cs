@@ -4,12 +4,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using WebApi.Core;
+using WebApi.Domain.Enum;
 
 namespace WebApi.Core.Migrations
 {
     [DbContext(typeof(NORTHWNDContext))]
-    [Migration("20170312105949_init-identity1")]
-    partial class initidentity1
+    [Migration("20170313071341_initdb")]
+    partial class initdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -131,6 +132,8 @@ namespace WebApi.Core.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<string>("ClientId");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
@@ -154,6 +157,8 @@ namespace WebApi.Core.Migrations
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("SecretKey");
 
                     b.Property<string>("SecurityStamp");
 
@@ -197,6 +202,32 @@ namespace WebApi.Core.Migrations
                         .HasName("CategoryName");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("WebApi.Domain.Client", b =>
+                {
+                    b.Property<string>("ClientId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Active");
+
+                    b.Property<int>("AllowedGrant");
+
+                    b.Property<string>("AllowedOrigin");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("RefreshTokenLifeTime");
+
+                    b.Property<string>("Secret");
+
+                    b.Property<string>("SecretKey");
+
+                    b.Property<int>("TokenLifeTime");
+
+                    b.HasKey("ClientId");
+
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("WebApi.Domain.CustomerCustomerDemo", b =>

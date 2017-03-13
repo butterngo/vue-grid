@@ -8,9 +8,7 @@
     using Microsoft.Extensions.Options;
     using Newtonsoft.Json;
     using WebApi.Common.Helpers;
-    using Microsoft.AspNetCore.Identity;
     using WebApi.Core.Identity;
-    using WebApi.Core;
     using WebApi.Common.Factories;
 
     public class TokenProviderMiddleware
@@ -18,7 +16,6 @@
         private readonly RequestDelegate _next;
 
         private readonly TokenProviderOptions _options;
-
 
         public TokenProviderMiddleware(
             RequestDelegate next,
@@ -52,7 +49,10 @@
             var username = context.Request.Form["username"];
             var password = context.Request.Form["password"];
 
+            //TryGetBasicCredentials(context);
+
             var identity = await GetIdentity(username, password);
+
             if (identity == null)
             {
                 context.Response.StatusCode = 400;
@@ -81,6 +81,7 @@
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
+
         private async Task<ClaimsIdentity> GetIdentity(string username, string password)
         {
             var userManager = ResolverFactory.GetService<WebApiUserManager>();
