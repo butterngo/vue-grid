@@ -10,5 +10,10 @@
             return Guid.NewGuid().ToString();
         }
 
+        public static TResult JsonToDto<TResult>(this string json)
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<TResult>(json);
+        }
+
     }
 }

@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
-
+using Web.Proxy.NetCore;
+using Web.MVC6.Services;
 namespace Web.MVC6
 {
     public class Startup
@@ -23,10 +24,14 @@ namespace Web.MVC6
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            AutoMapperConfiguration.Config();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IPoxyService>(new ProxyService(Configuration.GetSection("WebApi").GetValue<string>("Url")));
+            services.AddSingleton<ICategoryService, CategoryService>();
             // Add framework services.
             services.AddMvc();
         }

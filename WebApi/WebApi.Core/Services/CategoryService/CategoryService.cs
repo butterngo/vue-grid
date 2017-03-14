@@ -1,7 +1,7 @@
 ﻿namespace WebApi.Core.Services
 {
     using WebApi.Domain;
-    using WebApi.Core.Dto;
+    using WebApi.Dto;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 

@@ -1,0 +1,8 @@
+﻿@model Web.MVC6.ViewModels.CategoryViewModel
+
+<form asp-controller="Home"
+      asp-action="@ViewBag.Action">
+     <input asp-for="CategoryId" hidden="hidden" />
+     <input asp-for="CategoryName"/>
+    <button>Submit</button>
+</form>

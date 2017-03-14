@@ -4,6 +4,7 @@ namespace WebApi.Controllers
     using Microsoft.AspNetCore.Authorization;
     using WebApi.Core.Services;
     using System.Threading.Tasks;
+    using System;
 
     //[Authorize]
     public abstract class BaseController<TEntity, TDto, TService> : Controller

@@ -28,6 +28,8 @@
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
 
+            AutoMapperConfiguration.Config();
+
             HelperAppSettings appSettings = new HelperAppSettings(Configuration);
         }
 
@@ -37,8 +39,6 @@
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-
-            AutoMapperConfiguration.Config();
 
             services.AddMvc();
 
@@ -130,33 +130,33 @@
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddSingleton<ICategoryService, CategoryService>();
+            services.AddScoped<ICategoryService, CategoryService>();
 
-            services.AddSingleton<ICustomerCustomerDemoService, CustomerCustomerDemoService>();
+            services.AddScoped<ICustomerCustomerDemoService, CustomerCustomerDemoService>();
 
-            services.AddSingleton<ICustomerDemographicsService, CustomerDemographicsService>();
+            services.AddScoped<ICustomerDemographicsService, CustomerDemographicsService>();
 
-            services.AddSingleton<ICustomersService, CustomersService>();
+            services.AddScoped<ICustomersService, CustomersService>();
 
-            services.AddSingleton<IEmployeesService, EmployeesService>();
+            services.AddScoped<IEmployeesService, EmployeesService>();
 
-            services.AddSingleton<IEmployeeTerritoriesService, EmployeeTerritoriesService>();
+            services.AddScoped<IEmployeeTerritoriesService, EmployeeTerritoriesService>();
 
-            services.AddSingleton<IOrderDetailsService, OrderDetailsService>();
+            services.AddScoped<IOrderDetailsService, OrderDetailsService>();
 
-            services.AddSingleton<IOrdersService, OrdersService>();
+            services.AddScoped<IOrdersService, OrdersService>();
 
-            services.AddSingleton<IProductsService, ProductsService>();
+            services.AddScoped<IProductsService, ProductsService>();
 
-            services.AddSingleton<IRegionService, RegionService>();
+            services.AddScoped<IRegionService, RegionService>();
 
-            services.AddSingleton<IShippersService, ShippersService>();
+            services.AddScoped<IShippersService, ShippersService>();
 
-            services.AddSingleton<ISuppliersService, SuppliersService>();
+            services.AddScoped<ISuppliersService, SuppliersService>();
 
-            services.AddSingleton<ITerritoriesService, TerritoriesService>();
+            services.AddScoped<ITerritoriesService, TerritoriesService>();
 
-            services.AddSingleton<IClientService, ClientService>();
+            services.AddScoped<IClientService, ClientService>();
 
             ResolverFactory.SetProvider(services.BuildServiceProvider());
         }

@@ -1,7 +1,7 @@
 namespace WebApi.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
-    using WebApi.Core.Dto;
+    using WebApi.Dto;
     using Domain;
     using WebApi.Core.Services;
     using System.Threading.Tasks;

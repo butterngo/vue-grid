@@ -1,7 +1,7 @@
 ﻿namespace WebApi.Core.Services
 {
     using Domain;
-    using WebApi.Core.Dto;
+    using WebApi.Dto;
 
     public interface ISuppliersService: IServiceBase<Suppliers, SuppliersDto>
     {

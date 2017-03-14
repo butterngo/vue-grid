@@ -2,7 +2,7 @@
 {
     using AutoMapper;
     using Domain;
-    using Dto;
+    using WebApi.Dto;
 
     public class CommonMapper: Profile
     {

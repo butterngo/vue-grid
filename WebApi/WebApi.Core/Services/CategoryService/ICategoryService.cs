@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using WebApi.Core.Dto;
+    using WebApi.Dto;
     using WebApi.Domain;
 
     public interface ICategoryService: IServiceBase<Categories, CategoriesDto>

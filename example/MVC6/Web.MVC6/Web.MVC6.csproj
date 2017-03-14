@@ -19,6 +19,12 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\WebApi\Web.Dto\WebApi.Dto.csproj" />
+    <ProjectReference Include="..\..\..\WebApi\Web.Proxy\Web.Proxy.NetCore.csproj" />
+    <ProjectReference Include="..\..\..\WebApi\WebApi.Common\WebApi.Common.csproj" />
   </ItemGroup>
 
 </Project>
