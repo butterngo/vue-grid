@@ -1,7 +1,7 @@
 ﻿namespace WebApi.Core.Services
 {
     using Domain;
-    using WebApi.Core.Dto;
+    using WebApi.Dto;
 
     public class ProductsService : ServiceBase<Products, ProductsDto>, IProductsService
     {

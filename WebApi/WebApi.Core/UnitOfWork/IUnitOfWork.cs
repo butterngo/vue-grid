@@ -33,6 +33,8 @@
 
         IRepository<Territories> TerritoriesRepository { get; }
 
+        IRepository<Client> ClientRepository { get; }
+
         void Commit();
 
         Task CommitAsync();

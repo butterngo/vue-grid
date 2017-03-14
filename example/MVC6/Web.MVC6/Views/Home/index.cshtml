@@ -1,0 +1,26 @@
+﻿@{
+}
+@model Web.MVC6.ViewModels.CategoriesViewModel
+
+<a href="@Url.Action("Create", "Home")">Create Category</a>
+<table>
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+        <td>Edit</td>
+        <td>Delete</td>
+    </tr>
+    @{
+        foreach (var cat in Model.Categories)
+        {
+
+            <tr>
+                <td>@cat.CategoryId</td>
+                <td>@cat.CategoryName</td>
+                <td><a href="@Url.Action("Edit", "Home", new { id= cat.CategoryId })">Edit</a></td>
+                <td><a href="@Url.Action("Delete", "Home", new { id= cat.CategoryId })">Delete</a></td>
+            </tr>
+        }
+     }
+</table>
+

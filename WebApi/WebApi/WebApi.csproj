@@ -12,6 +12,7 @@
     <PackageReference Include="AutoMapper" Version="5.2.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
@@ -30,6 +31,8 @@
     <ProjectReference Include="..\WebApi.Common\WebApi.Common.csproj" />
     <ProjectReference Include="..\WebApi.Core\WebApi.Core.csproj" />
     <ProjectReference Include="..\WebApi.Domain\WebApi.Domain.csproj" />
+    <ProjectReference Include="..\WebApi.FakeData\WebApi.FakeData.csproj" />
+    <ProjectReference Include="..\WebApi.JWT\WebApi.JWT.csproj" />
   </ItemGroup>
 
 </Project>
