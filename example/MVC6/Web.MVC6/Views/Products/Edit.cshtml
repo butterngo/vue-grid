@@ -1,0 +1,68 @@
+﻿@model ProductViewModel
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<h2>Edit Product</h2>
+
+<form asp-action="Edit">
+    <h4>Edit Product</h4>
+    <hr />
+    <div asp-validation-summary="ModelOnly" style="color:red"></div>
+    <div>
+        <input type="hidden" asp-for="ProductId" />
+    </div>
+    <div>
+        <label asp-for="ProductName"></label>
+        <input asp-for="ProductName" />
+        <span asp-validation-for="ProductName" style="color:red"></span>
+    </div>
+    <div>
+        <label asp-for="SupplierID"></label>
+        <input asp-for="SupplierID" />
+        <span asp-validation-for="SupplierID" style="color:red"></span>
+    </div>
+    <div>
+        <label asp-for="CategoryID"></label>
+        <input asp-for="CategoryID" />
+        <span asp-validation-for="CategoryID" style="color:red"></span>
+    </div>
+    <div>
+        <label asp-for="QuantityPerUnit"></label>
+        <input asp-for="QuantityPerUnit" />
+        <span asp-validation-for="QuantityPerUnit" style="color:red"></span>
+    </div>
+    <div>
+        <label asp-for="UnitPrice"></label>
+        <input asp-for="UnitPrice" />
+        <span asp-validation-for="UnitPrice" style="color:red"></span>
+    </div>
+    <div>
+        <label asp-for="UnitsInStock"></label>
+        <input asp-for="UnitsInStock" />
+        <span asp-validation-for="UnitsInStock" style="color:red"></span>
+    </div>
+    <div>
+        <label asp-for="UnitsOnOrder"></label>
+        <input asp-for="UnitsOnOrder" />
+        <span asp-validation-for="UnitsOnOrder" style="color:red"></span>
+    </div>
+    <div>
+        <label asp-for="ReorderLevel"></label>
+        <input asp-for="ReorderLevel" />
+        <span asp-validation-for="ReorderLevel" style="color:red"></span>
+    </div>
+    <div>
+        <label asp-for="Discontinued"></label>
+        <input asp-for="Discontinued" />
+        <span asp-validation-for="Discontinued" style="color:red"></span>
+    </div>
+    <div>
+        <input type="submit" value="Save" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to list</a>
+</div>

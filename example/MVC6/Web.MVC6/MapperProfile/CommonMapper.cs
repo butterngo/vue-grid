@@ -11,12 +11,13 @@
             #region Dto To ViewModel
 
             CreateMap<CategoriesDto, CategoryViewModel>();
+            CreateMap<ProductsDto, ProductViewModel>();
 
             #endregion
 
             #region ViewModel To Dto
 
-            CreateMap<CategoryViewModel, CategoriesDto>();
+            CreateMap<ProductViewModel, ProductsDto>();
 
             #endregion
         }

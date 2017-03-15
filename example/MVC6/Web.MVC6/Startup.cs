@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Web.Proxy.NetCore;
 using Web.MVC6.Services;
+
 namespace Web.MVC6
 {
     public class Startup
@@ -32,6 +28,7 @@ namespace Web.MVC6
         {
             services.AddSingleton<IPoxyService>(new ProxyService(Configuration.GetSection("WebApi").GetValue<string>("Url")));
             services.AddSingleton<ICategoryService, CategoryService>();
+            services.AddScoped<IProductsService, ProductsService>();
             // Add framework services.
             services.AddMvc();
         }
@@ -56,7 +53,7 @@ namespace Web.MVC6
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Products}/{action=Index}/{id?}");
             });
         }
     }
