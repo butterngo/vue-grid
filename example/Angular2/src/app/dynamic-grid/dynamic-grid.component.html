@@ -1,0 +1,49 @@
+<div class="table-responsive">
+    <table class="responsive-table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th *ngFor="let header of columns;let ind=index" [ngStyle]="{'width': header.width}" [ngClass]="header.className">
+                    <span>  
+                                {{header.caption}}  
+                            </span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let s of _pagedItems; let i=index">
+                <td *ngFor="let cols of columns; let ind1=index" [ngSwitch]="cols.dataType" [ngStyle]="{'width': cols.width}">
+                    <span *ngSwitchCase="0">  
+                                {{s[cols.dataField]}}  
+                            </span>
+                    <span *ngSwitchCase="1">  
+                                {{s[cols.dataField]}}  
+                            </span>
+                    <span *ngSwitchCase="2">  
+                                {{s[cols.dataField] | date:"fullDate"}}  
+                            </span>
+                    <span *ngSwitchCase="3">  
+                                {{s[cols.dataField]}}  
+                            </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<ul *ngIf="(_pager.pages && _pager.pages.length) && gridOptions.paging" class="pagination">
+    <li [ngClass]="{disabled:_pager.currentPage === 1}">
+        <a (click)="setPage(1, _pageSize)">First</a>
+    </li>
+    <li [ngClass]="{disabled:_pager.currentPage === 1}">
+        <a (click)="setPage(_pager.currentPage - 1, _pageSize)">Previous</a>
+    </li>
+    <li *ngFor="let page of _pager.pages" [ngClass]="{active:_pager.currentPage === page}">
+        <a (click)="setPage(page, _pageSize)">{{page}}</a>
+    </li>
+    <li [ngClass]="{disabled:_pager.currentPage === _pager.totalPages}">
+        <a (click)="setPage(_pager.currentPage + 1, _pageSize)">Next</a>
+    </li>
+    <li [ngClass]="{disabled:_pager.currentPage === _pager.totalPages}">
+        <a (click)="setPage(_pager.totalPages, _pageSize)">Last</a>
+    </li>
+</ul>

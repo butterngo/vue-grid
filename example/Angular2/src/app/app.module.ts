@@ -1,33 +1,26 @@
-import { NgModule } from '@angular/core'
-import { RouterModule } from '@angular/router';
-import { rootRouterConfig } from './app.routes';
-import { AppComponent } from './app.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { HomeComponent } from './home/home.component';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-
-import { AjaxService } from './shared/ajax/ajax.component';
+import { AppComponent } from './app.component';
+import { ConfirmDirective } from './shared/directives/confirm-directive/confirm.directive';
+import { ProperCasePipe } from './shared/pipes/propercase.pipe';
+import { DynamicGridComponent } from './dynamic-grid/dynamic-grid.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    ConfirmDirective,
+    ProperCasePipe,
+    DynamicGridComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule,
-    HttpModule,
-    RouterModule.forRoot(rootRouterConfig, { useHash: true })
+    HttpModule
   ],
-  providers: [
-    AjaxService
-  ],
-  bootstrap: [ AppComponent ]
+  providers: [],
+  bootstrap: [AppComponent]
 })
-export class AppModule {
-
-}
+export class AppModule { }
