@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { ConfirmDirective } from './shared/directives/confirm-directive/confirm.directive';
 import { ProperCasePipe } from './shared/pipes/propercase.pipe';
 import { DynamicGridComponent } from './dynamic-grid/dynamic-grid.component';
+import { AjaxService } from './shared/ajax/ajax.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { DynamicGridComponent } from './dynamic-grid/dynamic-grid.component';
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [AjaxService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
